@@ -31,7 +31,6 @@ ENV NODE_ENV production
 COPY --from=base /usr/src/app/node_modules ./node_modules
 COPY --from=base /usr/src/app/build ./build
 
-# Expose the port that the application listens on.
 EXPOSE 3000
 
 # Run the application.
