@@ -40,7 +40,7 @@ FROM deps as build
 #    npm ci
 
 # Copy the rest of the source files into the image.
-COPY patientjournal-frontend .
+COPY fullstack-frontend .
 # Run the build script.
 RUN npm run build
 
