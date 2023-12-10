@@ -15,6 +15,8 @@ RUN npm ci --production
 # Copy all source files to the working directory.
 COPY . .
 
+RUN npm install
+
 # Run the build script.
 RUN npm run build
 
