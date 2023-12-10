@@ -40,7 +40,7 @@ FROM deps as build
 #    npm ci
 
 # Copy the rest of the source files into the image.
-COPY fullstack-frontend .
+COPY . .
 # Run the build script.
 RUN npm run build
 
