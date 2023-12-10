@@ -21,17 +21,17 @@ RUN npm install
 RUN npm run build
 
 # Create a new stage to run the application with minimal runtime dependencies.
-#FROM node:20.9.0-alpine as final
+FROM node:20.9.0-alpine as final
 
 # Set working directory for the final stage.
-#WORKDIR /usr/src/app
+WORKDIR /usr/src/app
 
 # Use production node environment by default.
-#ENV NODE_ENV production
+ENV NODE_ENV production
 
 # Copy only necessary files from the previous stage.
-#COPY --from=base /usr/src/app/node_modules ./node_modules
-#COPY --from=base /usr/src/app/build ./build
+COPY --from=base /usr/src/app/node_modules ./node_modules
+COPY --from=base /usr/src/app/build ./build
 
 EXPOSE 3000
 
