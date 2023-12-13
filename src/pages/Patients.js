@@ -37,6 +37,7 @@ export default function Patients() {
     try {
       // get all encounters for a given date
       const date = startDate.toISOString().split('T')[0];
+      console.log(`Date sent to database: ${date}`)
       const result = await axios.get(`http://localhost:8080/searchDoctorEncounters?doctorId=${storedUser.staffProfile.id}&date=${date}`);
       setEncounters(result.data);
     } catch (error) {

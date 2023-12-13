@@ -66,9 +66,6 @@ export default function Navbar() {
                                     <Link className='btn btn-outline-light' to="/addencounter">
                                         Add Encounter
                                     </Link>
-                                    <Link className='btn btn-outline-light' to="/image-upload">
-                                        Images
-                                    </Link>
                                     <Link className='btn btn-outline-light' to="/search">
                                         Search
                                     </Link>
@@ -80,9 +77,6 @@ export default function Navbar() {
                                 </Link>
                                 <Link className='btn btn-outline-light' to="/addencounter">
                                         Add Encounter
-                                </Link>
-                                <Link className='btn btn-outline-light' to="/image-upload">
-                                    Images
                                 </Link>
                                 </>
                             ) : null}
