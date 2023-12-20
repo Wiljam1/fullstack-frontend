@@ -71,9 +71,20 @@ export default function AddUser() {
     }
   
     console.log('Form Data:', userData);
-
-    //await axios.post("http://localhost:8081/user", userData);
-    await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/user", userData);
+    
+    try {
+      //await axios.post("http://localhost:8081/user", userData);
+      await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/user", userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      navigate("/");
+    } catch (error) {
+      console.error('Error during POST request:', error);
+      // Handle the error as needed
+    }
     navigate("/");
   };
   return (
