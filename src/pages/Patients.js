@@ -26,7 +26,7 @@ export default function Patients() {
       // gets all patients
       // const result = await axios.get("http://localhost:8081/patients");
       // get all patients for logged in doctor
-      const result = await axios.get(`http://localhost:8080/searchDoctorPatients?doctorId=${storedUser.staffProfile.id}`);
+      const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchDoctorPatients?doctorId=${storedUser.staffProfile.id}`);
       setUsers(result.data);
     } catch (error) {
       console.error("Error loading users:", error);
@@ -38,7 +38,7 @@ export default function Patients() {
       // get all encounters for a given date
       const date = startDate.toISOString().split('T')[0];
       console.log(`Date sent to database: ${date}`)
-      const result = await axios.get(`http://localhost:8080/searchDoctorEncounters?doctorId=${storedUser.staffProfile.id}&date=${date}`);
+      const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchDoctorEncounters?doctorId=${storedUser.staffProfile.id}&date=${date}`);
       setEncounters(result.data);
     } catch (error) {
       console.error("Error loading encounters:", error);
