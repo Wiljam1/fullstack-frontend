@@ -14,7 +14,7 @@ const MessageViewer = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:8081/users')
+    axios.get('https://users-wwnr.app.cloud.cbh.kth.se/users')
         .then(response => setUsers(response.data))
         .catch(error => console.error('Error fetching users:', error));
   }, []);
@@ -30,7 +30,7 @@ const MessageViewer = () => {
   const isMessageSender = async (message) => {
     try {
       const senderId = storedUser.id;
-      const response = await axios.get(`http://localhost:8083/messages/${senderId}`);
+      const response = await axios.get(`https://messages-wwnr.app.cloud.cbh.kth.se/messages/${senderId}`);
       console.log("Message id: " + message.id + " and responsedata id: " + response.data.some(sentMessage => sentMessage.id))
       return response.data.some(sentMessage => sentMessage.id === message.id);
     } catch (error) {
@@ -45,7 +45,7 @@ const MessageViewer = () => {
       const receiverId = selectedReceiver.id;
 
       axios
-          .get(`http://localhost:8083/messages/${senderId}/${receiverId}`)
+          .get(`https://messages-wwnr.app.cloud.cbh.kth.se/messages/${senderId}/${receiverId}`)
           .then((response) => setMessages(response.data))
           .catch((error) => console.error('Error fetching messages:', error));
     }
@@ -55,7 +55,7 @@ const MessageViewer = () => {
     e.preventDefault();
 
     // Fetch the user with the provided receiverUsername
-    axios.get(`http://localhost:8081/userInfo/${newMessage.receiverUsername}`)
+    axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/userInfo/${newMessage.receiverUsername}`)
         .then(response => {
           const receiverUser = response.data;
 
@@ -68,7 +68,7 @@ const MessageViewer = () => {
           };
 
           // Send the request to create a new message
-          axios.post('http://localhost:8083/message', messageData)
+          axios.post('https://messages-wwnr.app.cloud.cbh.kth.se/message', messageData)
               .then(response => {
                 setMessages([...messages, response.data]);
                 setNewMessage({ receiverUsername: '', subject: '', content: '' });

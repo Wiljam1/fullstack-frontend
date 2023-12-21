@@ -21,7 +21,7 @@ const ImageEdit = () => {
 
     const fetchImage = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/images/${index}`);
+            const response = await axios.get(`https://images.app.cloud.cbh.kth.se/images/${index}`);
             setImageData(response.data);
         } catch (error) {
             console.error('Error fetching image data:', error.message);

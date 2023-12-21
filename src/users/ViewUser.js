@@ -46,25 +46,25 @@ export default function ViewUser() {
   
   const loadObservations = async (profileId, userType) => {
     const endpoint = userType === 'patient' ? 'patient' : 'staff';
-    const url = `http://localhost:8082/observation/${endpoint}/${profileId}`;
+    const url = `https://patientjournal-wwnr.app.cloud.cbh.kth.se/observation/${endpoint}/${profileId}`;
     fetchData(url, setObservations, 'loading observations');
   };
   
   const loadConditions = async (profileId, userType) => {
     const endpoint = userType === 'patient' ? 'patient' : 'staff';
-    const url = `http://localhost:8082/condition/${endpoint}/${profileId}`;
+    const url = `https://patientjournal-wwnr.app.cloud.cbh.kth.se/condition/${endpoint}/${profileId}`;
     fetchData(url, setConditions, 'loading conditions');
   };
   
   const loadEncounters = async (profileId, userType) => {
     const endpoint = userType === 'patient' ? 'patient' : 'staff';
-    const url = `http://localhost:8082/encounter/${endpoint}/${profileId}`;
+    const url = `https://patientjournal-wwnr.app.cloud.cbh.kth.se/encounter/${endpoint}/${profileId}`;
     fetchData(url, setEncounters, 'loading encounters');
   };
   
   const loadUser = async () => {
   try {
-    const userResult = await axios.get(`http://localhost:8081/user/${id}`);
+    const userResult = await axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/user/${id}`);
     const user = userResult.data;
 
     //console.log("User Profile:", user);

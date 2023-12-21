@@ -13,7 +13,7 @@ const ImageUpload = () => {
 
     const fetchImages = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/images');
+            const response = await axios.get('https://images.app.cloud.cbh.kth.se/images');
             setImages(response.data);
         } catch (error) {
             console.error('Error fetching images:', error.message);
@@ -34,7 +34,7 @@ const ImageUpload = () => {
         formData.append('image', selectedFile);
     
         try {
-            const response = await axios.post('http://localhost:3001/upload', formData, {
+            const response = await axios.post('https://images.app.cloud.cbh.kth.se/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

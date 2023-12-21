@@ -26,7 +26,7 @@ export default function AddObservation() {
         }
 
         const loadUsers = async () => {
-            const result = await axios.get('http://localhost:8081/patients');
+            const result = await axios.get('https://users-wwnr.app.cloud.cbh.kth.se/patients');
             setUsers(result.data);
         };
         loadUsers();
@@ -50,7 +50,7 @@ export default function AddObservation() {
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log(condition);
-        await axios.post("http://localhost:8082/condition", condition);
+        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/condition", condition);
         navigate("/");
     };
 

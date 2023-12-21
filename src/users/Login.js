@@ -29,7 +29,7 @@ export default function Login() {
         console.log("test");
         try {
             console.log(user)
-            const response = await axios.post("http://localhost:8081/login", user);
+            const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user);
             console.log(response)
             //console.log('Response to login:', response);
             if (response.status === 200) {

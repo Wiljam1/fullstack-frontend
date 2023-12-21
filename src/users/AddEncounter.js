@@ -29,7 +29,7 @@ export default function AddObservation() {
         }
 
         const loadUsers = async () => {
-            const result = await axios.get('http://localhost:8081/patients');
+            const result = await axios.get('https://users-wwnr.app.cloud.cbh.kth.se/patients');
             setUsers(result.data);
         };
         loadUsers();
@@ -72,7 +72,7 @@ export default function AddObservation() {
             location: encounter.location,
         };
         setEncounter(jsonData);
-        await axios.post("http://localhost:8082/encounter", encounter);
+        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/encounter", encounter);
         navigate("/");
     };
 
