@@ -16,7 +16,7 @@ export default function Home() {
 
     const loadUsers = async () => {
         try {
-            const result = await axios.get("http://localhost:8081/users");
+            const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users");
             setUsers(result.data);
         } catch (error) {
             console.error("Error loading users:", error);
