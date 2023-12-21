@@ -8,13 +8,8 @@ export default function Login() {
 
 
     const [user, setUser] = useState({
-        name:"",
         username:"",
-        email:"",
-        type:"DOCTOR",
         password: "",
-        observations: [],
-        conditions: [],
     })
 
     const { username, password } = user;
@@ -29,7 +24,11 @@ export default function Login() {
         console.log("test");
         try {
             console.log(user)
-            const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user);
+            const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user, {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
             console.log(response)
             //console.log('Response to login:', response);
             if (response.status === 200) {
