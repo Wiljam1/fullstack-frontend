@@ -62,7 +62,7 @@ export default function AddUser() {
       }
       userData.staffProfile = {
         specialty: custom,
-        doctor: isDoctor, 
+        isDoctor: isDoctor, 
       };
     } else if (type === 'PATIENT') {
       userData.patientProfile = {
