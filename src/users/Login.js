@@ -30,7 +30,7 @@ export default function Login() {
                 },
               });
             console.log(response)
-            //console.log('Response to login:', response);
+            //console.log('Response to login:', response); s
             if (response.status === 200) {
                 //sessionStorage.removeItem('user')
                 sessionStorage.setItem('user', JSON.stringify(response.data));
