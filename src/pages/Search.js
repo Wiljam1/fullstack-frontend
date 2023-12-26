@@ -19,14 +19,10 @@ export default function Search() {
 
     const searchUsers = async () => {
         try {
-            //ReIndex so new entries can be searched for (slows down performance heavily)
-            await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/index`);
-
             //Search for patients based on name, conditions, username or email.
-            const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchPatients?pattern=${searchTerm}`);
+            const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/users/search?pattern=${searchTerm}`);
             console.log(result.data);
             setUsers(result.data);
-            //maybe reset search
             setSearchTerm('')
         } catch (error) {
             console.error("Error loading users:", error);
