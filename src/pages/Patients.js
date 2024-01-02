@@ -11,6 +11,17 @@ export default function Patients() {
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
   const isAllowed = storedUser?.type === 'DOCTOR';
   const [startDate, setStartDate] = useState(new Date());
+  const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
   useEffect(() => {
     if (!isAllowed) {
@@ -23,10 +34,8 @@ export default function Patients() {
 
   const loadUsers = async () => {
     try {
-      // gets all patients
-      // const result = await axios.get("http://localhost:8081/patients");
       // get all patients for logged in doctor
-      const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchDoctorPatients?doctorId=${storedUser.staffProfile.id}`);
+      const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchDoctorPatients?doctorId=${storedUser.staffProfile.id}`, config);
       setUsers(result.data);
     } catch (error) {
       console.error("Error loading users:", error);
@@ -38,7 +47,7 @@ export default function Patients() {
       // get all encounters for a given date
       const date = startDate.toISOString().split('T')[0];
       console.log(`Date sent to database: ${date}`)
-      const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchDoctorEncounters?doctorId=${storedUser.staffProfile.id}&date=${date}`);
+      const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/searchDoctorEncounters?doctorId=${storedUser.staffProfile.id}&date=${date}`, config);
       setEncounters(result.data);
     } catch (error) {
       console.error("Error loading encounters:", error);

@@ -8,6 +8,17 @@ export default function Search() {
     const storedUser = JSON.parse(sessionStorage.getItem('user'));
     const isAllowed = storedUser?.type === 'DOCTOR';
     const [searchTerm, setSearchTerm] = useState('');
+    const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
     useEffect(() => {
         if (!isAllowed) {
@@ -20,7 +31,9 @@ export default function Search() {
     const searchUsers = async () => {
         try {
             //Search for patients based on name, conditions, username or email.
-            const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/users/search?pattern=${searchTerm}`);
+            //const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/users/search?pattern=${searchTerm}`);
+            console.log("Searching localhost..")
+            const result = await axios.get(`https://search-wwnr.app.cloud.cbh.kth.se/users/search?pattern=${searchTerm}`, config);
             console.log(result.data);
             setUsers(result.data);
             setSearchTerm('')
