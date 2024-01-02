@@ -18,10 +18,21 @@ const ImageEdit = () => {
     const storedUser = JSON.parse(sessionStorage.getItem('user'));
     const isAuthorized = storedUser !== null && storedUser.type === 'DOCTOR';
     let navigate = useNavigate();
+    const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
     const fetchImage = async () => {
         try {
-            const response = await axios.get(`https://images.app.cloud.cbh.kth.se/images/${index}`);
+            const response = await axios.get(`https://images.app.cloud.cbh.kth.se/images/${index}`, config);
             setImageData(response.data);
         } catch (error) {
             console.error('Error fetching image data:', error.message);
@@ -191,7 +202,7 @@ const ImageEdit = () => {
             const mergedImageData = canvas.toDataURL('image/jpeg');
             
             try {
-                const response = await axios.post('http://localhost:3001/saveMergedImage', {
+                const response = await axios.post('https://images.app.cloud.cbh.kth.se/saveMergedImage', config, {
                   imageData: mergedImageData,
                   id: index,
                 });

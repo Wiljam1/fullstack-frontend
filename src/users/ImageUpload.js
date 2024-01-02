@@ -5,6 +5,17 @@ import axios from 'axios';
 const ImageUpload = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [images, setImages] = useState([]);
+    const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+    
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
     useEffect(() => {
         // Fetch images when the component mounts
@@ -13,7 +24,7 @@ const ImageUpload = () => {
 
     const fetchImages = async () => {
         try {
-            const response = await axios.get('https://images.app.cloud.cbh.kth.se/images');
+            const response = await axios.get('https://images.app.cloud.cbh.kth.se/images', config);
             setImages(response.data);
         } catch (error) {
             console.error('Error fetching images:', error.message);
@@ -34,7 +45,7 @@ const ImageUpload = () => {
         formData.append('image', selectedFile);
     
         try {
-            const response = await axios.post('https://images.app.cloud.cbh.kth.se/upload', formData, {
+            const response = await axios.post('https://images.app.cloud.cbh.kth.se/upload', config, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
