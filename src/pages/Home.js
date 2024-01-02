@@ -17,27 +17,20 @@ export default function Home() {
     
     const loadUsers = async () => {
         try {
-            const storedSession = sessionStorage.getItem('loginSession');
-            if (!storedSession) {
+            const storedLogin = sessionStorage.getItem('loginSession');
+            if (!storedLogin) {
                 console.error("User not logged in");
                 return;
             }
     
-            const loginSession = JSON.parse(storedSession);
+            const loginSession = JSON.parse(storedLogin);
             const token = loginSession.access_token;
-    
-            if (!token) {
-                console.error("No token found");
-                return;
-            }
-    
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
     
-            const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users", config);
-            // WORKS LOCALLY;
-            //const result = await axios.get("http://localhost:8081/users", config);
+            //const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users", config);
+            const result = await axios.get("http://localhost:8081/users", config);
             setUsers(result.data);
         } catch (error) {
             console.error("Error loading users:", error);

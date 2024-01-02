@@ -64,7 +64,18 @@ export default function ViewUser() {
   
   const loadUser = async () => {
   try {
-    const userResult = await axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/user/${id}`);
+    const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    const userResult = await axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/user/${id}`, config);
     const user = userResult.data;
 
     //console.log("User Profile:", user);

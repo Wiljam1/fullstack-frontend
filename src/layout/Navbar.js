@@ -17,6 +17,7 @@ export default function Navbar() {
         
     }, [storedUser, navigate]);
 
+    // TODO: Logout when saved token is expired? Show alert?
     const handleLogout = () => {
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('isDoctor');

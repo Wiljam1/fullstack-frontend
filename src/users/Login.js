@@ -55,18 +55,19 @@ export default function Login() {
         try {
             console.log(user)
               const token = await getToken(user.username, user.password);
-              const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user, {
+              /*const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+              });*/
+              // WORKS LOCALLY;
+              const response = await axios.post("http://localhost:8081/login", user, {
                 headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`
                 },
               });
-              // WORKS LOCALLY;
-              /*const response = await axios.post("http://localhost:8081/login", user, {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              });*/
             console.log(response)
             //console.log('Response to login:', response); s
             if (response.status === 200) {

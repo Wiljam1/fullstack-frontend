@@ -12,9 +12,20 @@ const MessageViewer = () => {
     subject: '',
     content: '',
   });
+  const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
   useEffect(() => {
-    axios.get('https://users-wwnr.app.cloud.cbh.kth.se/users')
+    axios.get('https://users-wwnr.app.cloud.cbh.kth.se/users', config)
         .then(response => setUsers(response.data))
         .catch(error => console.error('Error fetching users:', error));
   }, []);
@@ -30,7 +41,7 @@ const MessageViewer = () => {
   const isMessageSender = async (message) => {
     try {
       const senderId = storedUser.id;
-      const response = await axios.get(`https://messages-wwnr.app.cloud.cbh.kth.se/messages/${senderId}`);
+      const response = await axios.get(`https://messages-wwnr.app.cloud.cbh.kth.se/messages/${senderId}`, config);
       console.log("Message id: " + message.id + " and responsedata id: " + response.data.some(sentMessage => sentMessage.id))
       return response.data.some(sentMessage => sentMessage.id === message.id);
     } catch (error) {
@@ -45,7 +56,7 @@ const MessageViewer = () => {
       const receiverId = selectedReceiver.id;
 
       axios
-          .get(`https://messages-wwnr.app.cloud.cbh.kth.se/messages/${senderId}/${receiverId}`)
+          .get(`https://messages-wwnr.app.cloud.cbh.kth.se/messages/${senderId}/${receiverId}`, config)
           .then((response) => setMessages(response.data))
           .catch((error) => console.error('Error fetching messages:', error));
     }
@@ -55,7 +66,7 @@ const MessageViewer = () => {
     e.preventDefault();
 
     // Fetch the user with the provided receiverUsername
-    axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/userInfo/${newMessage.receiverUsername}`)
+    axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/userInfo/${newMessage.receiverUsername}`, config)
         .then(response => {
           const receiverUser = response.data;
 
@@ -68,7 +79,7 @@ const MessageViewer = () => {
           };
 
           // Send the request to create a new message
-          axios.post('https://messages-wwnr.app.cloud.cbh.kth.se/message', messageData)
+          axios.post('https://messages-wwnr.app.cloud.cbh.kth.se/message', messageData, config)
               .then(response => {
                 setMessages([...messages, response.data]);
                 setNewMessage({ receiverUsername: '', subject: '', content: '' });
