@@ -14,14 +14,37 @@ export default function Home() {
         console.log("Information loaded" + id)
     }, []);
 
+    
     const loadUsers = async () => {
         try {
-            const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users");
+            const storedSession = sessionStorage.getItem('loginSession');
+            if (!storedSession) {
+                console.error("User not logged in");
+                return;
+            }
+    
+            const loginSession = JSON.parse(storedSession);
+            const token = loginSession.access_token;
+    
+            if (!token) {
+                console.error("No token found");
+                return;
+            }
+    
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+    
+            const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users", config);
+            // WORKS LOCALLY;
+            //const result = await axios.get("http://localhost:8081/users", config);
             setUsers(result.data);
         } catch (error) {
             console.error("Error loading users:", error);
         }
     };
+    
+    
  
     return (
       <div className='container'>
@@ -31,7 +54,7 @@ export default function Home() {
                   <p>Welcome to the home page!</p>
               </div>
 
-              {/* Displays all users in database - Remove table later 
+              {/* Displays all users in database - Remove table later */}
               <table className="table shadow border fixed-bottom">
                   <thead>
                       <tr>
@@ -58,7 +81,7 @@ export default function Home() {
                       ))}
                   </tbody>
               </table>
-              */}
+              
           </div>
       </div>
   )

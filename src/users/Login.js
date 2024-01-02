@@ -19,20 +19,58 @@ export default function Login() {
         setUser({ ...user, [e.target.name]: e.target.value });
     };
 
+    const getToken = async (username, password) => {
+        const tokenUrl = 'https://keycloak.app.cloud.cbh.kth.se/realms/patient-keycloak/protocol/openid-connect/token';
+        const client_id = 'spring-auth';
+        const grant_type = 'password';
+        const client_secret = 'Cy5NXaZEkQaXm7TjI6Uq1CBTmNz6ainJ'; 
+    
+        const params = new URLSearchParams();
+        params.append('client_id', client_id);
+        params.append('username', username);
+        params.append('password', password);
+        params.append('grant_type', grant_type);
+        params.append('client_secret', client_secret);
+    
+        try {
+            const response = await axios.post(tokenUrl, params, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+            console.log("got Token;")
+            console.log(response)
+            // Saving loginSession so refreshtoken etc can be used throughout the whole frontend
+            sessionStorage.setItem('loginSession', JSON.stringify(response.data));
+            return response.data.access_token;
+        } catch (error) {
+            console.error('Error fetching token:', error);
+            throw error;
+        }
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log("test");
         try {
             console.log(user)
-            const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user, {
+              const token = await getToken(user.username, user.password);
+              const response = await axios.post("https://users-wwnr.app.cloud.cbh.kth.se/login", user, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+              });
+              // WORKS LOCALLY;
+              /*const response = await axios.post("http://localhost:8081/login", user, {
                 headers: {
                   'Content-Type': 'application/json',
                 },
-              });
+              });*/
             console.log(response)
             //console.log('Response to login:', response); s
             if (response.status === 200) {
-                //sessionStorage.removeItem('user')
+                // TODO: Rework in the whole frontend, use the token for site access etc?
                 sessionStorage.setItem('user', JSON.stringify(response.data));
                 sessionStorage.setItem('userId', response.data.id);
                 const isDoctor = response.data.doctorProfile !== null;
