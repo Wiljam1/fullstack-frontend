@@ -29,8 +29,8 @@ export default function Home() {
                 headers: { Authorization: `Bearer ${token}` }
             };
     
-            //const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users", config);
-            const result = await axios.get("http://localhost:8081/users", config);
+            const result = await axios.get("https://users-wwnr.app.cloud.cbh.kth.se/users", config);
+            //const result = await axios.get("http://localhost:8081/users", config);
             setUsers(result.data);
         } catch (error) {
             console.error("Error loading users:", error);
