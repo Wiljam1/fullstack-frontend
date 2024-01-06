@@ -62,7 +62,7 @@ export default function AddObservation() {
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log(observation);
-        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/observation", config, observation);
+        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/observation", observation, config);
         navigate("/");
     };
 

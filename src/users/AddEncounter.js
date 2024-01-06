@@ -84,7 +84,7 @@ export default function AddObservation() {
             location: encounter.location,
         };
         setEncounter(jsonData);
-        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/encounter", config, encounter);
+        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/encounter", encounter, config);
         navigate("/");
     };
 
