@@ -18,6 +18,18 @@ export default function AddObservation() {
         location: ""
     });
 
+    const storedLogin = sessionStorage.getItem('loginSession');
+    if (!storedLogin) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const loginSession = JSON.parse(storedLogin);
+    const token = loginSession.access_token;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+
     const { practitionerId, patientId, date, location } = encounter;
 
     const isAuthorized = storedUser !== null && storedUser.staffProfile;
@@ -29,7 +41,7 @@ export default function AddObservation() {
         }
 
         const loadUsers = async () => {
-            const result = await axios.get('https://users-wwnr.app.cloud.cbh.kth.se/patients');
+            const result = await axios.get('https://users-wwnr.app.cloud.cbh.kth.se/patients', config);
             setUsers(result.data);
         };
         loadUsers();
@@ -72,7 +84,7 @@ export default function AddObservation() {
             location: encounter.location,
         };
         setEncounter(jsonData);
-        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/encounter", encounter);
+        await axios.post("https://patientjournal-wwnr.app.cloud.cbh.kth.se/encounter", config, encounter);
         navigate("/");
     };
 

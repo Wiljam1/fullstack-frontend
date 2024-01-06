@@ -25,6 +25,18 @@ export default function ViewUser() {
 
   const isAuthorized = storedUser?.id == id || storedUser?.type === 'DOCTOR';
 
+  const storedLogin = sessionStorage.getItem('loginSession');
+  if (!storedLogin) {
+      console.error("User not logged in");
+      return;
+  }
+
+  const loginSession = JSON.parse(storedLogin);
+  const token = loginSession.access_token;
+  const config = {
+      headers: { Authorization: `Bearer ${token}` }
+  };
+
   useEffect(() => {
     if (!isAuthorized) {
       console.log("Not authorized, storedId:" + storedUser?.id + " and url id: " + `${id}`);
@@ -37,7 +49,7 @@ export default function ViewUser() {
 
   const fetchData = async (url, onSuccess, onError) => {
     try {
-      const result = await axios.get(url);
+      const result = await axios.get(url, config);
       onSuccess(result.data);
     } catch (error) {
       console.error(`Error: ${onError}`, error);
@@ -64,17 +76,6 @@ export default function ViewUser() {
   
   const loadUser = async () => {
   try {
-    const storedLogin = sessionStorage.getItem('loginSession');
-    if (!storedLogin) {
-        console.error("User not logged in");
-        return;
-    }
-
-    const loginSession = JSON.parse(storedLogin);
-    const token = loginSession.access_token;
-    const config = {
-        headers: { Authorization: `Bearer ${token}` }
-    };
     const userResult = await axios.get(`https://users-wwnr.app.cloud.cbh.kth.se/user/${id}`, config);
     const user = userResult.data;
 
