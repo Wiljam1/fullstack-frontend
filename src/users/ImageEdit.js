@@ -202,10 +202,10 @@ const ImageEdit = () => {
             const mergedImageData = canvas.toDataURL('image/jpeg');
             
             try {
-                const response = await axios.post('https://images.app.cloud.cbh.kth.se/saveMergedImage', config, {
+                const response = await axios.post('https://images.app.cloud.cbh.kth.se/saveMergedImage', {
                   imageData: mergedImageData,
                   id: index,
-                });
+                }, config);
                 
             } catch (error) {
                 console.error('Error saving image:', error);

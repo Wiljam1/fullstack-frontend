@@ -45,11 +45,11 @@ const ImageUpload = () => {
         formData.append('image', selectedFile);
     
         try {
-            const response = await axios.post('https://images.app.cloud.cbh.kth.se/upload', config, formData, {
+            const response = await axios.post('https://images.app.cloud.cbh.kth.se/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            });
+            }, config);
 
             setImages((prevImages) => [...prevImages, response.data]); // Update state with the new image
         } catch (error) {
