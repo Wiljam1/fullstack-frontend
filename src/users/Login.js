@@ -23,7 +23,7 @@ export default function Login() {
         const tokenUrl = 'https://keycloak.app.cloud.cbh.kth.se/realms/patient-keycloak/protocol/openid-connect/token';
         const client_id = 'spring-auth';
         const grant_type = 'password';
-        const client_secret = '9DjdN3bEZeC4v1hV2wXczDf0ycVLlWOc'; 
+        const client_secret = 'eqqhlz1Cltxlsby1U5EDkyxFOy9VMC2a'; 
     
         const params = new URLSearchParams();
         params.append('client_id', client_id);
